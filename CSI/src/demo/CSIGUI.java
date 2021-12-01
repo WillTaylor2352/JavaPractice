@@ -56,11 +56,11 @@ public class CSIGUI extends JFrame {
 					ip.setImagePath("Images");
 					final File folder = new File(ip.getImagePath());
 					ip.ReadImageFiles(folder);
-					ip.ReadImageList();
+					//ip.ReadImageList();
 			//---ends set folder path
 					
-					CSIGUI frame = new CSIGUI();
-					frame.setVisible(true);
+					//CSIGUI frame = new CSIGUI();
+					//frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

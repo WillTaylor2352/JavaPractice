@@ -26,6 +26,7 @@ public class ImageProcessing {
 	
 	public void setImagePath(String imagePath) {this.imagePath = imagePath;}
 	public String getImagePath() {return imagePath;}
+	
 	public PixelValues pixelValues;
 	
 	public ImageProcessing(){
@@ -38,15 +39,16 @@ public class ImageProcessing {
 	public static ArrayList<File> getFileList() {return fileList;}
 	
 	public void ReadImageFiles(final File folder){
-		    for (final File fileEntry : folder.listFiles()) {
-		        if (fileEntry.isDirectory()) { 					// if folder is found, 
-		        	ReadImageFiles(fileEntry); 					// read contents of folder
-		        } else {										// otherwise
-		        	fileList.add(fileEntry);					// add fileEntry to fileList
-		            //System.out.println(fileEntry.getName());	// print the name
-		        }
-		    }
-		}
+		System.out.println(fileList);
+		for (final File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) { 					// if folder is found, 
+				ReadImageFiles(fileEntry); 					// read contents of folder
+		    } else {										// otherwise
+	        	fileList.add(fileEntry);					// add fileEntry to fileList
+	            System.out.println(fileEntry.getName());	// print the name
+	        }
+	    }
+	}
 	
 	public void ReadImageList() {
 		BufferedImage tmpBufferedImage; // creates bufferedimage object
