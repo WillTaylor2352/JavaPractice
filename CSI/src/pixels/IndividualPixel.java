@@ -1,4 +1,3 @@
-
 package pixels;
 
 public class IndividualPixel {
