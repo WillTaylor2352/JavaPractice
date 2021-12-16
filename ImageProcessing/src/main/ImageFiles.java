@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ public class ImageFiles {
 	private static ArrayList<File> fileList;
 	private ArrayList<BufferedImage> imgList;
 	private String imagePath;
+	private int targetImageWidth, targetImageHeight;
 	
 	public void setImagePath(String imagePath) {this.imagePath = imagePath;}
 	public String getImagePath() {return imagePath;}
@@ -21,12 +23,17 @@ public class ImageFiles {
 
 	public ArrayList<BufferedImage> getImageList(){return imgList;}
 	
+	public void setTargetImageSize(int targetImageWidth, int targetImageHeight) {
+		this.targetImageWidth = targetImageWidth; 
+		this.targetImageHeight = targetImageHeight;
+	}
 	
 	
 	public ImageFiles(){
 		fileList = new ArrayList<File>();
 		imgList = new ArrayList<BufferedImage>();
 	}
+	
 	
 	public void ReadImageFiles(final File folder){
 	    for (final File fileEntry : folder.listFiles()) {
@@ -38,6 +45,13 @@ public class ImageFiles {
 	        }
 	    }
 	    LoadImageList(fileList);
+	    try {
+	    	GUI.setJLabelSize(targetImageWidth, targetImageHeight);
+	    	ResizeImages(imgList, targetImageWidth, targetImageHeight);
+	    }
+	    catch(Exception e) {
+	    	e.printStackTrace();
+	    }
 	    //System.out.println(fileList);
 	}
 	
@@ -50,6 +64,20 @@ public class ImageFiles {
 			}
 			
 		}
+	}
+	private void ResizeImages(ArrayList<BufferedImage> originalImages, int targetWidth, int targetHeight) throws IOException {
+		int index = 0;
+	    
+		for(BufferedImage bi: imgList) {
+	    	BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+	    	Graphics2D graphics2D = resizedImage.createGraphics();
+	    	graphics2D.drawImage(bi, 0, 0, targetWidth, targetHeight, null);
+	    	graphics2D.dispose();
+	    	imgList.set(index, resizedImage);
+	    	
+	    	index++;
+	    }
+	    
 	}
 	
 	public ImageIcon NextImage(int currIndex) {

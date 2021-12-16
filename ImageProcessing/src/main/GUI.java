@@ -7,22 +7,24 @@ import javax.swing.*;
 public class GUI {
 	
 	private static JFrame myframe;
-	JPanel mypanel;
-	JLabel mylabel;
+	//JPanel mypanel;
+	//JLabel mylabel;
 	int width = 300, height = 500;
 	static int currentIndex = 0;
 	static ImageIcon statImgIcon;
 	private ImageFiles myfiles = null;
+	public static int JLabelSizeX, JLabelSizeY;
 	
 	public void setImageFiles(ImageFiles myfiles) {this.myfiles = myfiles;}
 	public ImageFiles getImageFiles() {return myfiles;}
+	public static void setJLabelSize(int x, int y) {JLabelSizeX = x; JLabelSizeY = y;}
+	
 	
 	public GUI() {
 		myframe = new JFrame();
 		myframe.setVisible(true);
 		myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		myframe.setLayout(new FlowLayout());
-		myframe.setBounds(50, 50, width, height);
+		
 	}
 	
 	
@@ -30,22 +32,35 @@ public class GUI {
 	public void MakeFrame(String title) {
 				
 		try {
-			JPanel thisPanel = new JPanel();
+			//JPanel thisPanel = new JPanel();
 			JLabel jLabel = new JLabel();
 			JButton bLeft = new JButton("<-");
 			JButton bRight = new JButton("->");
+			Container pane = myframe.getContentPane();
+			Insets insets = myframe.getContentPane().getInsets();
 			
-			thisPanel.setBackground(Color.pink);
-			thisPanel.setSize(myframe.getSize());
+			pane.setLayout(null);
+			myframe.setSize(insets.left + insets.right + width, insets.top + insets.bottom + height);
 			
-			myframe.add(thisPanel);
-			thisPanel.add(jLabel);
-			thisPanel.add(bLeft);
-			thisPanel.add(bRight);
+			//thisPanel.setBackground(Color.pink);
+			//thisPanel.setSize(myframe.getSize());
 			
+			//pane.add(thisPanel);
+			pane.add(jLabel);
+			pane.add(bLeft);
+			pane.add(bRight);
 			
-			bLeft.setSize(30, 30);
-			bRight.setSize(30, 30);
+			Dimension size = bLeft.getPreferredSize();
+			bLeft.setBounds(width/2 - size.width, insets.top + 400, size.width, size.height);
+			
+			size = bRight.getPreferredSize();
+			bRight.setBounds(width/2, insets.top + 400, size.width, size.height);
+			
+			//bLeft.setSize(30, 30);
+			//bRight.setSize(30, 30);
+		//	
+			size = jLabel.getPreferredSize();
+			jLabel.setBounds(width/2 - JLabelSizeX/2, insets.top + 10, size.width+this.JLabelSizeX, size.height+this.JLabelSizeY+20);
 			
 			statImgIcon = new ImageIcon(myfiles.getImageList().get(currentIndex));
 			jLabel.setText(myfiles.getFileList().get(currentIndex).getName());
@@ -82,7 +97,8 @@ public class GUI {
 				}
 				
 			});
-			
+		//*/
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
