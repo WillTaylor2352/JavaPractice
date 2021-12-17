@@ -23,6 +23,7 @@ public class ImageFiles {
 
 	public ArrayList<BufferedImage> getImageList(){return imgList;}
 	
+	
 	public void setTargetImageSize(int targetImageWidth, int targetImageHeight) {
 		this.targetImageWidth = targetImageWidth; 
 		this.targetImageHeight = targetImageHeight;
@@ -65,6 +66,7 @@ public class ImageFiles {
 			
 		}
 	}
+	
 	private void ResizeImages(ArrayList<BufferedImage> originalImages, int targetWidth, int targetHeight) throws IOException {
 		int index = 0;
 	    

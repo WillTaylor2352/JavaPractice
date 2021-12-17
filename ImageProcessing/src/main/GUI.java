@@ -24,7 +24,6 @@ public class GUI {
 		myframe = new JFrame();
 		myframe.setVisible(true);
 		myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 	}
 	
 	

@@ -55,7 +55,7 @@ public class Main{
 				mygui.setImageFiles(myfiles);
 				mygui.MakeFrame("Gibbeh");
 		//*/
-		    
+				ConvertedImage ci = new ConvertedImage(myfiles.getImageList().get(0));
 		    }
 		});		
 	}
