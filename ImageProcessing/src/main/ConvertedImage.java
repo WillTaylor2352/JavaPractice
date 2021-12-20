@@ -19,8 +19,8 @@ public class ConvertedImage {
 		newimage = convertImage(oi);
 	}
 	
-	private BufferedImage convertImage(BufferedImage oi) {
-		BufferedImage thisconversion = null;
+	public  BufferedImage convertImage(BufferedImage oi) {
+		BufferedImage thisconversion = new BufferedImage(oi.getWidth(), oi.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Color c = new Color(0);
 		int red= 0, green = 0, blue = 0;
 		double[] myhsv = {0,0,0};
@@ -33,9 +33,12 @@ public class ConvertedImage {
 					blue = 	c.getBlue();
 					
 					myhsv = RGBtoHSV(red, green, blue);
+					
 					//System.out.println("hue: " + myhsv[0] + ", sat: " + myhsv[1] + ", vib: " + myhsv[2] + " --- pixel @ loc: " + x + ", " + y + " ");
 					//System.out.print(" --- pixel @ loc: " + x + ", " + y + " ");
 					
+					c = truecolor(myhsv[0], myhsv[1], myhsv[2]);
+					thisconversion.setRGB(x, y, c.getRGB());
 					
 				}
 			}
@@ -48,7 +51,7 @@ public class ConvertedImage {
 		return thisconversion;
 	}
 	
-	private Color truecolor(double hue, double saturation, double vibrancy) {
+	private  Color truecolor(double hue, double saturation, double vibrancy) {
 		Color c = hueTest(hue);
 		
 		
@@ -56,7 +59,7 @@ public class ConvertedImage {
 		return c;
 	}
 	
-	private Color hueTest(double hue) {
+	private  Color hueTest(double hue) {
 		
 		if(0 < hue && hue < 27)
 			return Color.red;//red
@@ -78,14 +81,18 @@ public class ConvertedImage {
 			return Color.GRAY;
 		
 	}
-	private Color vibCheck() {
-		
-	}
+/*	
 	private Color satChec() {
 		
 	}
-	
-	public double[] RGBtoHSV(double red, double green, double blue) {
+	private Color vibCheck(Color colorfromhue, double vibrancy) {
+		if(vibrancy <= 20)
+			return Color.black;
+		else if (vibrancy > 20 && vibrancy <= 45)
+			return 
+	}
+*/
+	public  double[] RGBtoHSV(double red, double green, double blue) {
 
         double hue, saturation, vibrancy;
 

@@ -61,7 +61,8 @@ public class GUI {
 			size = jLabel.getPreferredSize();
 			jLabel.setBounds(width/2 - JLabelSizeX/2, insets.top + 10, size.width+this.JLabelSizeX, size.height+this.JLabelSizeY+20);
 			
-			statImgIcon = new ImageIcon(myfiles.getImageList().get(currentIndex));
+			//statImgIcon = new ImageIcon(myfiles.getImageList().get(currentIndex));
+			statImgIcon = new ImageIcon(myfiles.getProcessedImage().get(currentIndex));
 			jLabel.setText(myfiles.getFileList().get(currentIndex).getName());
 			jLabel.setIcon(statImgIcon);
 			

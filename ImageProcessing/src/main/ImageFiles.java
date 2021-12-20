@@ -13,6 +13,7 @@ public class ImageFiles {
 	
 	private static ArrayList<File> fileList;
 	private ArrayList<BufferedImage> imgList;
+	private ArrayList<BufferedImage> processedImages;
 	private String imagePath;
 	private int targetImageWidth, targetImageHeight;
 	
@@ -23,6 +24,7 @@ public class ImageFiles {
 
 	public ArrayList<BufferedImage> getImageList(){return imgList;}
 	
+	public ArrayList<BufferedImage> getProcessedImage(){return processedImages;}
 	
 	public void setTargetImageSize(int targetImageWidth, int targetImageHeight) {
 		this.targetImageWidth = targetImageWidth; 
@@ -49,6 +51,9 @@ public class ImageFiles {
 	    try {
 	    	GUI.setJLabelSize(targetImageWidth, targetImageHeight);
 	    	ResizeImages(imgList, targetImageWidth, targetImageHeight);
+	    	processedImages = new ArrayList<BufferedImage>();
+	    	ConvertedImage ci = new ConvertedImage();
+	    	processedImages.add(ci.convertImage(imgList.get(0)));
 	    }
 	    catch(Exception e) {
 	    	e.printStackTrace();
