@@ -60,7 +60,7 @@ public class ConvertedImage {
 	}
 	
 	private  Color hueTest(double hue) {
-		
+		//TODO Add intermediary color space (red-orange / orange-yellow / green-cyan / cyan-blue), etc... 
 		if(0 < hue && hue < 25)
 			return Color.red;//red
 		else if (25 <= hue && hue < 40)
@@ -106,40 +106,7 @@ public class ConvertedImage {
 			return colorfromhue;
 		
 		
-/*
-		if (saturation < 5) {
-			if (vibrancy < 15)
-				return Color.black;
-			else if (vibrancy < 30)
-				return Color.DARK_GRAY;
-			else if (vibrancy < 55)
-				return Color.gray;
-			else if (vibrancy < 80)
-				return Color.LIGHT_GRAY;
-			else 
-				return Color.white;
-		}
-		else if (saturation < 30) {
-			if (vibrancy < 15)
-				return Color.black;
-			else if (vibrancy < 30) 
-				return Color.darkGray;
-			else if (vibrancy < 55)
-				return Color.gray; //return new Color(average);
-			else 
-				return colorfromhue;
-		}
-		else if (saturation < 50) {
-			if (vibrancy < 15)
-				return Color.black;
-			else if (vibrancy < 30) 
-				return Color.darkGray;
-			else 
-				return colorfromhue;
-		}
-		else
-			return colorfromhue;
-//*/	
+	
 	}
 //*/
 	public  double[] RGBtoHSV(double red, double green, double blue) {
