@@ -9,7 +9,8 @@ public class GUI {
 	private static JFrame myframe;
 	//JPanel mypanel;
 	//JLabel mylabel;
-	int width = 300, height = 500;
+	int width = 1500;
+	int height = 1000;
 	static int currentIndex = 0;
 	static ImageIcon statImgIcon;
 	private ImageFiles myfiles = null;
@@ -50,10 +51,10 @@ public class GUI {
 			pane.add(bRight);
 			
 			Dimension size = bLeft.getPreferredSize();
-			bLeft.setBounds(width/2 - size.width, insets.top + 400, size.width, size.height);
+			bLeft.setBounds(width/2 - size.width, insets.top + myframe.getHeight() - 100, size.width, size.height);
 			
 			size = bRight.getPreferredSize();
-			bRight.setBounds(width/2, insets.top + 400, size.width, size.height);
+			bRight.setBounds(width/2, insets.top + myframe.getHeight() - 100, size.width, size.height);
 			
 			//bLeft.setSize(30, 30);
 			//bRight.setSize(30, 30);

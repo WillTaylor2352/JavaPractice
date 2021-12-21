@@ -24,7 +24,7 @@ public class Main{
 		Dimension size = mylabel.getPreferredSize();
 		mylabel.setBounds(100 + insets.left, 250 + insets.top, size.width+20, size.height+20);
 		//*/
-		myframe.setSize(300 + insets.left + insets.right, 500 + insets.top + insets.bottom);
+		myframe.setSize(1500 + insets.left + insets.right, 2000 + insets.top + insets.bottom);
 		
 		//myframe.pack();
 		myframe.setVisible(true);
@@ -36,7 +36,7 @@ public class Main{
 		myfiles.setImagePath("Images");
 		
 		final File folder = new File(myfiles.getImagePath());
-		myfiles.setTargetImageSize(150, 300);
+		myfiles.setTargetImageSize(450, 600);
 		myfiles.ReadImageFiles(folder);
 		
 		

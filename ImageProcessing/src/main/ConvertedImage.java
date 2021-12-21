@@ -53,7 +53,7 @@ public class ConvertedImage {
 	
 	private  Color truecolor(double hue, double saturation, double vibrancy) {
 		Color c = hueTest(hue);
-		
+		c = greyCheck(c, saturation, vibrancy);
 		
 		
 		return c;
@@ -61,15 +61,15 @@ public class ConvertedImage {
 	
 	private  Color hueTest(double hue) {
 		
-		if(0 < hue && hue < 27)
+		if(0 < hue && hue < 25)
 			return Color.red;//red
-		else if (27 <= hue && hue < 48)
+		else if (25 <= hue && hue < 40)
 			return Color.orange; // orange
-		else if (48 <= hue && hue < 67)
+		else if (40 <= hue && hue < 80)
 			return Color.yellow; // yellow
-		else if (67 <= hue && hue < 135)
+		else if (80 <= hue && hue < 150)
 			return Color.green; // green
-		else if (135<= hue && hue < 200)
+		else if (150<= hue && hue < 200)
 			return Color.cyan;// cyan
 		else if (200<= hue && hue < 270)
 			return Color.blue;// blue
@@ -81,17 +81,67 @@ public class ConvertedImage {
 			return Color.GRAY;
 		
 	}
-/*	
-	private Color satChec() {
-		
-	}
-	private Color vibCheck(Color colorfromhue, double vibrancy) {
-		if(vibrancy <= 20)
+	
+	private Color greyCheck(Color colorfromhue, double saturation, double vibrancy) {
+		//TODO should I flip the list? Do a vibrancy check first then do a saturation check? 
+		if(vibrancy < 20) 
 			return Color.black;
-		else if (vibrancy > 20 && vibrancy <= 45)
-			return 
+		else if (vibrancy < 30) 
+			return Color.darkGray;
+		else if (vibrancy < 45 && saturation < 25)
+			return Color.gray;
+		else if (vibrancy < 45 && saturation >= 25)
+			return colorfromhue;
+		else if (vibrancy >= 45 && vibrancy < 75 && saturation < 20)
+			return Color.gray;
+		else if (vibrancy >= 45 && vibrancy < 75 && saturation >= 20)
+			return colorfromhue;
+		else if (vibrancy >= 75 && vibrancy < 90 && saturation < 20)
+			return Color.gray;
+		else if (vibrancy >= 75 && vibrancy < 90 && saturation >= 20)
+			return colorfromhue;
+		else if (vibrancy >= 90 && saturation < 20)
+			return Color.white;
+		else 
+			return colorfromhue;
+		
+		
+/*
+		if (saturation < 5) {
+			if (vibrancy < 15)
+				return Color.black;
+			else if (vibrancy < 30)
+				return Color.DARK_GRAY;
+			else if (vibrancy < 55)
+				return Color.gray;
+			else if (vibrancy < 80)
+				return Color.LIGHT_GRAY;
+			else 
+				return Color.white;
+		}
+		else if (saturation < 30) {
+			if (vibrancy < 15)
+				return Color.black;
+			else if (vibrancy < 30) 
+				return Color.darkGray;
+			else if (vibrancy < 55)
+				return Color.gray; //return new Color(average);
+			else 
+				return colorfromhue;
+		}
+		else if (saturation < 50) {
+			if (vibrancy < 15)
+				return Color.black;
+			else if (vibrancy < 30) 
+				return Color.darkGray;
+			else 
+				return colorfromhue;
+		}
+		else
+			return colorfromhue;
+//*/	
 	}
-*/
+//*/
 	public  double[] RGBtoHSV(double red, double green, double blue) {
 
         double hue, saturation, vibrancy;
@@ -133,4 +183,14 @@ public class ConvertedImage {
         vibrancy = (vibrancy / 256.0) * 100.0;
         return new double[] { hue, saturation, vibrancy };
     }
+	
+	private int RGBtoInt(int red, int green, int blue) {
+		//int thisint = 0;
+		int redhold, greenhold, bluehold;
+		redhold = (red << 16) & 0x00FF0000; //Shift red 16-bits and mask out other stuff
+	    greenhold = (green << 8) & 0x0000FF00; //Shift Green 8-bits and mask out other stuff
+	    bluehold = blue & 0x000000FF; //Mask out anything not blue.
+
+	    return 0xFF000000 | redhold | greenhold | bluehold; //0xFF000000 for 100% Alpha. Bitwise OR everything together.
+	}
 }

@@ -50,7 +50,7 @@ public class ImageFiles {
 	    LoadImageList(fileList);
 	    try {
 	    	GUI.setJLabelSize(targetImageWidth, targetImageHeight);
-	    	ResizeImages(imgList, targetImageWidth, targetImageHeight);
+	    	ResizePreserve(imgList, targetImageWidth, targetImageHeight);
 	    	processedImages = new ArrayList<BufferedImage>();
 	    	ConvertedImage ci = new ConvertedImage();
 	    	processedImages.add(ci.convertImage(imgList.get(0)));
@@ -85,6 +85,50 @@ public class ImageFiles {
 	    	index++;
 	    }
 	    
+	}
+	private void ResizePreserve(ArrayList<BufferedImage> originalImages, int targetWidth, int targetHeight) throws IOException {
+		int index = 0; 
+		BufferedImage resizedImage;
+		for (BufferedImage bi: originalImages) {
+			resizedImage = new BufferedImage(
+					(int)Math.floor(bi.getWidth()), 
+					(int)Math.floor(bi.getHeight()), 
+					BufferedImage.TYPE_INT_RGB
+					);
+			if(bi.getWidth() > targetWidth || bi.getHeight() > targetHeight) {
+				
+				do {
+				resizedImage = new BufferedImage(
+						(int)Math.floor(resizedImage.getWidth()*.95), 
+						(int)Math.floor(resizedImage.getHeight()*.95), 
+						BufferedImage.TYPE_INT_RGB
+						);
+					//Math.round(Math.floor(targetWidth*.9));
+			    	Graphics2D graphics2D = resizedImage.createGraphics();
+			    	graphics2D.drawImage(bi, 0, 0, (int)Math.floor(resizedImage.getWidth()*.95), (int)Math.floor(resizedImage.getHeight()*.95), null);
+			    	graphics2D.dispose();
+			    	System.out.println(resizedImage.getHeight());
+				}while (resizedImage.getWidth() > targetWidth || resizedImage.getHeight() > targetHeight);
+				imgList.set(index, resizedImage);
+			}
+			else if(bi.getWidth() < targetWidth || bi.getHeight() < targetHeight) {
+				do {
+					resizedImage = new BufferedImage(
+							(int)Math.floor(resizedImage.getWidth()*1.05), 
+							(int)Math.floor(resizedImage.getHeight()*1.05), 
+							BufferedImage.TYPE_INT_RGB
+							);
+						//Math.round(Math.floor(targetWidth*.9));
+				    	Graphics2D graphics2D = resizedImage.createGraphics();
+				    	graphics2D.drawImage(bi, 0, 0, (int)Math.floor(resizedImage.getWidth()*1.05), (int)Math.floor(resizedImage.getHeight()*1.05), null);
+				    	graphics2D.dispose();
+				    	//System.out.println(resizedImage.getHeight());
+					}while (resizedImage.getWidth() < targetWidth && resizedImage.getHeight() < targetHeight);
+					imgList.set(index, resizedImage);	
+			}
+			
+			index++;
+		}
 	}
 	
 	public ImageIcon NextImage(int currIndex) {
