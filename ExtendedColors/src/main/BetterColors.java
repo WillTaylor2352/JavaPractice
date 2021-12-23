@@ -6,7 +6,6 @@ import java.awt.Color;
  * @author Will Taylor
  * @version 1.0
  */
-@SuppressWarnings("serial")
 public class BetterColors extends Color{
 	/**
 	 * 
@@ -24,7 +23,8 @@ public class BetterColors extends Color{
 	public BetterColors(int alpha, int red, int green, int blue) {
 		super(red, green, blue, alpha);
 	}
-	/** Converts a color to Hue, Saturation, and Vibrancy (sometimes called brightness). Returns a float array of these values
+	
+	/** Converts a color to Hue, Saturation, and Vibrancy (sometimes called brightness). 
 	 * @param c Color to be converted to HSV values
 	 * @return float[] Contains the values [0]-hue | [1]-saturation | [2]-vibrancy
 	 */
@@ -65,6 +65,47 @@ public class BetterColors extends Color{
         s = s * 100.0;
         v = (v / 256.0) * 100.0;
         return new double[] {h, s, v};
+	}
+	/**
+	 * Converts Red, Green, and Blue integer values to Hue, Saturation, and Vibrancy (sometimes called brightness) values.
+	 * @param r - 0-255 integer value representing a color's equivelant red value
+	 * @param g - 0-255 integer value representing a color's equivelant green value
+	 * @param b - 0-255 integer value representing a color's equivelant blue value
+	 * @return double[] Contains the values [0]-hue | [1]-saturation | [2]-vibrancy
+	 */
+	public double[] rgbToHSV(int r, int g, int b) {
+	int min, max, delta;
+	double h, s, v;
+		min = Math.min(Math.min(r, g), b);
+		max = Math.max(Math.max(r, g), b);
+		v = max;
+		delta = max - min;
+		
+		if (max != 0)
+            s = delta / max;
+        else {
+            s = 0;
+            h = -1;
+            return new double[]{h, s, v};
+        }
+		
+		if (r == max)
+            h = (g - b) / delta; // between yellow & magenta
+        else if (g == max)
+            h = 2 + (b - r) / delta; // between cyan & yellow
+        else
+            h = 4 + (r - g) / delta; // between magenta & cyan
+		
+		h *= 60; // degrees
+
+        if (h < 0)
+            h += 360;
+
+        h = h * 1.0;
+        s = s * 100.0;
+        v = (v / 256.0) * 100.0;
+        return new double[] {h, s, v};
+	
 	}
 	
 }
