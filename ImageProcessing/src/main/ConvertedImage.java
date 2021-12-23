@@ -2,21 +2,38 @@ package main;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class ConvertedImage {
 
 	public BufferedImage oldimage, newimage;
+	private ArrayList<BufferedImage> procBIList;// = new ArrayList<BufferedImage>();
+	private ArrayList<BufferedImage> oiList;// = new ArrayList<BufferedImage>();
 	
-	public void setOldImage(BufferedImage old) {oldimage = old;}
+	public ArrayList<BufferedImage> getOriginalImages (){return oiList;}
+	
+	//public void setOldImage(BufferedImage old) {oldimage = old;}
+	
+	public ArrayList<BufferedImage> getProcessedImages(){return procBIList;}
+	public void setOiList(ArrayList<BufferedImage>oiListpassed){oiList = oiListpassed;}
 	
 	public ConvertedImage() {
-		oldimage = null; 
-		newimage = null;
+		/*oldimage = null; 
+		newimage = null;*/
+		procBIList = new ArrayList<BufferedImage>();
+		oiList = new ArrayList<BufferedImage>();
 	}
 	
-	public ConvertedImage(BufferedImage oi) {
-		oldimage = oi;
-		newimage = convertImage(oi);
+	public ConvertedImage(ArrayList<BufferedImage> oi) {
+		oiList = new ArrayList<BufferedImage>();
+		oiList = oi;
+		multiConvert();
+	}
+	
+	public void multiConvert(){
+		for(BufferedImage bi: oiList) {
+			procBIList.add(convertImage(bi));
+		}
 	}
 	
 	public  BufferedImage convertImage(BufferedImage oi) {
@@ -105,11 +122,39 @@ public class ConvertedImage {
 		else 
 			return colorfromhue;
 		
-		
-	
 	}
 //*/
-	public  double[] RGBtoHSV(double red, double green, double blue) {
+	private int averageColors(Color color1, Color color2) {
+		int red1=0, green1=0, blue1=0;
+		int red2=0, green2=0, blue2=0;
+		int squarehold1=0, squarehold2=0;
+		long adddivhold=0;
+		int[] rgbaverageval = new int[3];
+		
+		red1 = color1.getRed();
+		green1 = color1.getGreen();
+		blue1 = color1.getBlue();
+		int[] mycolors1 = {red1, green1, blue1};
+		
+		red2 = color2.getRed();
+		green2 = color2.getGreen();
+		blue2 = color2.getBlue();
+		int[] mycolors2 = {red2, green2, blue2};
+		
+		for(int i = 0; i < mycolors1.length - 1; i++) {
+			squarehold1 = mycolors1[i] * mycolors1[i];
+			squarehold2 = mycolors2[i] * mycolors2[i];
+			
+			adddivhold = squarehold1 + squarehold2;
+			adddivhold = adddivhold / 2;
+			
+			rgbaverageval[i] = (int) Math.sqrt(adddivhold);
+		}
+		
+		return RGBtoInt(rgbaverageval[0], rgbaverageval[1], rgbaverageval[2]);
+	}
+	
+	public double[] RGBtoHSV(double red, double green, double blue) {
 
         double hue, saturation, vibrancy;
 

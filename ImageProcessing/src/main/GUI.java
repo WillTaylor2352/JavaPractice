@@ -13,6 +13,7 @@ public class GUI {
 	int height = 1000;
 	static int currentIndex = 0;
 	static ImageIcon statImgIcon;
+	static ImageIcon statProcImgIcon;
 	private ImageFiles myfiles = null;
 	public static int JLabelSizeX, JLabelSizeY;
 	
@@ -33,7 +34,8 @@ public class GUI {
 				
 		try {
 			//JPanel thisPanel = new JPanel();
-			JLabel jLabel = new JLabel();
+			JLabel jLabeloriginal = new JLabel();
+			JLabel jLabelprocessed = new JLabel();
 			JButton bLeft = new JButton("<-");
 			JButton bRight = new JButton("->");
 			Container pane = myframe.getContentPane();
@@ -46,7 +48,8 @@ public class GUI {
 			//thisPanel.setSize(myframe.getSize());
 			
 			//pane.add(thisPanel);
-			pane.add(jLabel);
+			pane.add(jLabeloriginal);
+			pane.add(jLabelprocessed);
 			pane.add(bLeft);
 			pane.add(bRight);
 			
@@ -59,42 +62,63 @@ public class GUI {
 			//bLeft.setSize(30, 30);
 			//bRight.setSize(30, 30);
 		//	
-			size = jLabel.getPreferredSize();
-			jLabel.setBounds(width/2 - JLabelSizeX/2, insets.top + 10, size.width+this.JLabelSizeX, size.height+this.JLabelSizeY+20);
+			size = jLabeloriginal.getPreferredSize();
+			jLabeloriginal.setBounds(width/3 - JLabelSizeX/2, insets.top + 10, size.width+this.JLabelSizeX, size.height+this.JLabelSizeY+40);
+
+			size = jLabelprocessed.getPreferredSize();
+			jLabelprocessed.setBounds(width/3 + JLabelSizeX/2, insets.top + 10, size.width+this.JLabelSizeX, size.height+this.JLabelSizeY+40);
 			
 			//statImgIcon = new ImageIcon(myfiles.getImageList().get(currentIndex));
-			statImgIcon = new ImageIcon(myfiles.getProcessedImage().get(currentIndex));
-			jLabel.setText(myfiles.getFileList().get(currentIndex).getName());
-			jLabel.setIcon(statImgIcon);
+			statImgIcon = new ImageIcon(myfiles.getImageList().get(currentIndex));
+			jLabeloriginal.setText(myfiles.getFileList().get(currentIndex).getName());
+			jLabeloriginal.setIcon(statImgIcon);
 			
-			jLabel.setHorizontalTextPosition(JLabel.CENTER);
-			jLabel.setVerticalTextPosition(JLabel.BOTTOM);
+			jLabeloriginal.setHorizontalTextPosition(JLabel.CENTER);
+			jLabeloriginal.setVerticalTextPosition(JLabel.BOTTOM);
+			
+			statProcImgIcon = new ImageIcon(myfiles.getProcessedImage().get(currentIndex));
+			jLabelprocessed.setText(myfiles.getFileList().get(currentIndex).getName());
+			jLabelprocessed.setIcon(statProcImgIcon);
+			
+			jLabelprocessed.setHorizontalTextPosition(JLabel.CENTER);
+			jLabelprocessed.setVerticalTextPosition(JLabel.BOTTOM);
+			
+			
 			
 			bLeft.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ImageIcon i = myfiles.PreviousImage(currentIndex);
+					ImageIcon i = myfiles.PreviousOriginalImage(currentIndex);
+					ImageIcon pi = myfiles.PreviousProcessedImage(currentIndex);
 					if(currentIndex-1<0) 
 						currentIndex = myfiles.getImageList().size()-1;
 					else
 						currentIndex--;
 					
-					jLabel.setIcon(i);
-					jLabel.setText(myfiles.getFileList().get(currentIndex).getName());
+					jLabelprocessed.setIcon(pi);
+					jLabelprocessed.setText(myfiles.getFileList().get(currentIndex).getName());
+						
+					
+					jLabeloriginal.setIcon(i);
+					jLabeloriginal.setText(myfiles.getFileList().get(currentIndex).getName());
 				}
 			});
 			
 			bRight.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ImageIcon i = myfiles.NextImage(currentIndex);
+					ImageIcon i = myfiles.NextOriginalImage(currentIndex);
+					ImageIcon pi = myfiles.NextProcessedImage(currentIndex);
 					if(currentIndex+1>myfiles.getImageList().size()-1) 
 						currentIndex = 0;
 					else
 						currentIndex++;
 					
-					jLabel.setIcon(i);
-					jLabel.setText(myfiles.getFileList().get(currentIndex).getName());
+					jLabeloriginal.setIcon(i);
+					jLabeloriginal.setText(myfiles.getFileList().get(currentIndex).getName());
+				
+					jLabelprocessed.setIcon(pi);
+					jLabelprocessed.setText(myfiles.getFileList().get(currentIndex).getName());
 				}
 				
 			});

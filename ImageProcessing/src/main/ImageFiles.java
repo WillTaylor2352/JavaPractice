@@ -31,12 +31,10 @@ public class ImageFiles {
 		this.targetImageHeight = targetImageHeight;
 	}
 	
-	
 	public ImageFiles(){
 		fileList = new ArrayList<File>();
 		imgList = new ArrayList<BufferedImage>();
 	}
-	
 	
 	public void ReadImageFiles(final File folder){
 	    for (final File fileEntry : folder.listFiles()) {
@@ -48,12 +46,17 @@ public class ImageFiles {
 	        }
 	    }
 	    LoadImageList(fileList);
+	    
+	    
 	    try {
 	    	GUI.setJLabelSize(targetImageWidth, targetImageHeight);
 	    	ResizePreserve(imgList, targetImageWidth, targetImageHeight);
-	    	processedImages = new ArrayList<BufferedImage>();
 	    	ConvertedImage ci = new ConvertedImage();
-	    	processedImages.add(ci.convertImage(imgList.get(0)));
+		    ci.setOiList(imgList);
+		    ci.multiConvert();
+	    	processedImages = new ArrayList<BufferedImage>();
+	    	LoadProcessedImageList(ci.getProcessedImages());	
+	    	//processedImages.add(ci.getProcessedImages().get());
 	    }
 	    catch(Exception e) {
 	    	e.printStackTrace();
@@ -66,6 +69,16 @@ public class ImageFiles {
 			try {
 				imgList.add(ImageIO.read(f));
 			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	private void LoadProcessedImageList(ArrayList<BufferedImage> thesefiles){
+		for (BufferedImage f: thesefiles) {
+			try {
+				processedImages.add(f);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
@@ -131,7 +144,7 @@ public class ImageFiles {
 		}
 	}
 	
-	public ImageIcon NextImage(int currIndex) {
+	public ImageIcon NextOriginalImage(int currIndex) {
 		ImageIcon i;
 		if(currIndex+1 > imgList.size()-1)
 			i = new ImageIcon(imgList.get(0));
@@ -140,13 +153,30 @@ public class ImageFiles {
 		
 		return i;
 	}
-	
-	public ImageIcon PreviousImage(int currIndex) {
+	public ImageIcon PreviousOriginalImage(int currIndex) {
 		ImageIcon i;
 		if (currIndex-1 < 0)
 			i = new ImageIcon(imgList.get(imgList.size()-1));
 		else
 			i = new ImageIcon(imgList.get(currIndex-1));
+		
+		return i;
+	}
+	public ImageIcon NextProcessedImage(int currIndex) {
+		ImageIcon i;
+		if(currIndex+1 > imgList.size()-1)
+			i = new ImageIcon(processedImages.get(0));
+		else 
+			i = new ImageIcon(processedImages.get(currIndex+1));
+		
+		return i;
+	}
+	public ImageIcon PreviousProcessedImage(int currIndex) {
+		ImageIcon i;
+		if (currIndex-1 < 0)
+			i = new ImageIcon(processedImages.get(processedImages.size()-1));
+		else
+			i = new ImageIcon(processedImages.get(currIndex-1));
 		
 		return i;
 	}
